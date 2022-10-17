@@ -23,7 +23,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v0.1.14
         with:
-          name: "Release ${VERSION}"
+          name: "Release " ${{ env.VERSION }}
           files: |
             control-plane-components.yaml
             metadata.yaml
