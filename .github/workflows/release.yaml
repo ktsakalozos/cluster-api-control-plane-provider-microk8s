@@ -17,12 +17,14 @@ jobs:
         id: build
         run: |
           echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+          sed -i control-plane-components.yaml "s,docker.io/cdkbot/capi-control-plane-provider-microk8s:latest,cdkbot/capi-control-plane-provider-microk8s:${RELEASE_TAG//v},"
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v0.1.14
         with:
+          name: "Release ${VERSION}"
           files: |
             control-plane-components.yaml
             metadata.yaml
           generate_release_notes: true
-          draft: true
+          draft: false
           prerelease: ${{ contains(env.VERSION, 'rc') }}
