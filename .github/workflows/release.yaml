@@ -16,8 +16,10 @@ jobs:
       - name: Retrieve build information
         id: build
         run: |
-          echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-          sed -i control-plane-components.yaml "s,docker.io/cdkbot/capi-control-plane-provider-microk8s:latest,cdkbot/capi-control-plane-provider-microk8s:${RELEASE_TAG//v},"
+          VERSION="${GITHUB_REF#refs/tags/}"
+          echo "Releasing ${VERSION}"
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+          sed -i control-plane-components.yaml "s,docker.io/cdkbot/capi-control-plane-provider-microk8s:latest,cdkbot/capi-control-plane-provider-microk8s:${VERSION//v},"
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v0.1.14
         with:
